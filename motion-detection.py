@@ -64,35 +64,5 @@ lastCapture = time.time()
 
 def main():
     print("IN MAIN")
-    while True:
-
-        print("running loop")
-
-        # Get comparison image
-        image2, buffer2 = captureTestImage()
-
-    	# Count changed pixels
-    	changedPixels = 0
-    	for x in xrange(0, 100):
-       	    for y in xrange(0, 75):
-	    	print("checking for motion")
-            	# Just check green channel as it's the highest quality channel
-            	pixdiff = abs(buffer1[x,y][1] - buffer2[x,y][1])
-            	if pixdiff > threshold:
-                    changedPixels += 1
-
-    	# Check force capture
-    	if forceCapture:
-            if time.time() - lastCapture > forceCaptureTime:
-            	changedPixels = sensitivity + 1
-                
-    	print("changed pixels {}".format(changedPixels))
-    	# Save an image if pixels changed
-    	if changedPixels > sensitivity:
-            lastCapture = time.time()
-            saveImage(saveWidth, saveHeight, diskSpaceToReserve)
     
-    	# Swap comparison buffers
-   	image1 = image2
-    	buffer1 = buffer2
 main()

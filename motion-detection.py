@@ -22,14 +22,14 @@ diskSpaceToReserve = 40 * 1024 * 1024 # Keep 40 mb free on disk
 # Capture a small test image (for motion detection)
 def captureTestImage():
     print("capturing test image")
-    command = "raspistill -w %s -h %s -t 0 -e bmp -o -" % (100, 75)
-    imageData = StringIO.StringIO()
-    imageData.write(subprocess.check_output(command, shell=True))
-    imageData.seek(0)
-    im = Image.open(imageData)
-    buffer = im.load()
-    imageData.close()
-    return im, buffer
+    # command = "raspistill -w %s -h %s -t 0 -e bmp -o -" % (100, 75)
+    # imageData = StringIO.StringIO()
+    # imageData.write(subprocess.check_output(command, shell=True))
+    # imageData.seek(0)
+    # im = Image.open(imageData)
+    # buffer = im.load()
+    # imageData.close()
+    # return im, buffer
 
 # Save a full size image to disk
 def saveImage(width, height, diskSpaceToReserve):
@@ -58,7 +58,9 @@ def getFreeSpace():
         
 # Get first image
 captureTestImage()
+print("got past capture test image 1")
 image1, buffer1 = captureTestImage()
+print("got past capture test image 2")
 
 # Reset last capture time
 lastCapture = time.time()
@@ -67,4 +69,3 @@ def pickles():
     print("IN MAIN")
     return
 
-c 

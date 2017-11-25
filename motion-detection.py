@@ -57,6 +57,7 @@ def getFreeSpace():
     return du
         
 # Get first image
+captureTestImage()
 image1, buffer1 = captureTestImage()
 
 # Reset last capture time
@@ -66,4 +67,4 @@ def pickles():
     print("IN MAIN")
     return
 
-captureTestImage()
+c 

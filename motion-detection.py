@@ -62,7 +62,7 @@ image1, buffer1 = captureTestImage()
 # Reset last capture time
 lastCapture = time.time()
 
-def main():
+def pickles():
     print("IN MAIN")
     
-main()
+pickles()

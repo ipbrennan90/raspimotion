@@ -64,5 +64,6 @@ lastCapture = time.time()
 
 def pickles():
     print("IN MAIN")
-    
-pickles()
+    return
+
+captureTestImage()

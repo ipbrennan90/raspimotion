@@ -2,6 +2,7 @@ import StringIO
 import subprocess
 import os
 import time
+import thread
 from datetime import datetime
 from PIL import Image
 from picamera import PiCamera
@@ -42,6 +43,10 @@ def captureTestImage():
     print("5")
     return im, buffer
 
+def makeGIF(tempdir, time):
+    os.system('convert -delay 10 -loop 0 {}/*.jpg {}-{}-{}-{}-{}-{}.gif'.format(tempdir, time.year, time.month, time.day, time.hour, time.minute, time.second))
+    print("MADE GIF")
+
 # Save a full size image to disk
 def saveImage(width, height, diskSpaceToReserve):
     tempdir = tempfile.mkdtemp()
@@ -53,8 +58,8 @@ def saveImage(width, height, diskSpaceToReserve):
             filename = "capture-{}.jpg".format(i)
             path = os.path.join(tempdir, filename)
             camera.capture(path)
-        os.system('convert -delay 10 -loop 0 {}/*.jpg {}-{}-{}-{}-{}-{}.gif'.format(tempdir, time.year, time.month, time.day, time.hour, time.minute, time.second))
-        print("MADE GIF")
+        thread.start_new_thread(makeGIF, (tempdir,time,))
+        
     except IOError as e:
         print 'ERROR'
     finally:

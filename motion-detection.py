@@ -9,6 +9,7 @@ from io import BytesIO
 from time import sleep
 from picamera import PiCamera
 from PIL import Image
+import tempfile
 
 # Motion detection settings:
 # Threshold (how much a pixel has to change by to be marked as "changed")
@@ -24,8 +25,9 @@ saveWidth = 1280
 saveHeight = 960
 diskSpaceToReserve = 40 * 1024 * 1024 # Keep 40 mb free on disk
 camera = PiCamera()
+saved_umask = os.umask(0077)
 
-
+    
 # Capture a small test image (for motion detection)
 def captureTestImage():
     # Create the in-memory stream
@@ -42,11 +44,21 @@ def captureTestImage():
 
 # Save a full size image to disk
 def saveImage(width, height, diskSpaceToReserve):
+    tempdir = tempfile.mkdtemp()
     print("saving image")
     keepDiskSpaceFree(diskSpaceToReserve)
     time = datetime.now()
-    filename = "capture-%04d%02d%02d-%02d%02d%02d.jpg" % (time.year, time.month, time.day, time.hour, time.minute, time.second)
-    camera.capture(filename)
+    try:
+        filename = "capture-%04d%02d%02d-%02d%02d%02d.jpg" % (time.year, time.month, time.day, time.hour, time.minute, time.second)
+        path = os.path.join(tempdir, filename)
+        for i in range(10):
+            camera.capture(path)
+        os.system('convert -delay 10 -loop 0 {}/*.jpg {}-{}-{}-{}-{}-{}.gif'.format(tempdir, time.year, time.month, time.day, time.hour, time.minute, time.second))
+        print("MADE GIF")
+    except IOError as e:
+        print 'ERROR'
+    finally:
+        print("DID IT")
     print "Captured %s" % filename
 
 # Keep free space above given level

@@ -34,13 +34,11 @@ def captureTestImage():
     # Create the in-memory stream
     stream = BytesIO()
     camera.start_preview()
-    sleep(2)
+    sleep(1)
     camera.capture(stream, format='jpeg')
     stream.seek(0)
     im = Image.open(stream)
-    print("4")
     buffer = im.load()
-    print("5")
     return im, buffer
 
 def makeGIF(tempdir, time):
@@ -70,7 +68,7 @@ def saveImage(width, height, diskSpaceToReserve):
 def keepDiskSpaceFree(bytesToReserve):
     if (getFreeSpace() < bytesToReserve):
         for filename in sorted(os.listdir(".")):
-            if filename.startswith("capture") and filename.endswith(".jpg"):
+            if filename.endswith(".jpg") or filename.endswith(".gif"):
                 os.remove(filename)
                 print "Deleted %s to avoid filling disk" % filename
                 if (getFreeSpace() > bytesToReserve):

@@ -49,9 +49,9 @@ def saveImage(width, height, diskSpaceToReserve):
     keepDiskSpaceFree(diskSpaceToReserve)
     time = datetime.now()
     try:
-        filename = "capture-%04d%02d%02d-%02d%02d%02d.jpg" % (time.year, time.month, time.day, time.hour, time.minute, time.second)
-        path = os.path.join(tempdir, filename)
         for i in range(10):
+            filename = "capture-{}.jpg".format(i)
+            path = os.path.join(tempdir, filename)
             camera.capture(path)
         os.system('convert -delay 10 -loop 0 {}/*.jpg {}-{}-{}-{}-{}-{}.gif'.format(tempdir, time.year, time.month, time.day, time.hour, time.minute, time.second))
         print("MADE GIF")

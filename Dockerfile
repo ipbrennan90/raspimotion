@@ -9,4 +9,4 @@ RUN apt-get update && \
 ADD ./test.py ./test.py
 
 
-CMD ["python", "test.py"]
+CMD ["python"]

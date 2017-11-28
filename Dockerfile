@@ -6,4 +6,7 @@ RUN apt-get update && \
                 build-essential python \
                 ca-certificates
 
-CMD ["python motion-detection.py"]
+ADD ./motion-detection.py ./motion-detection.py
+
+
+CMD ["python", " motion-detection.py"]

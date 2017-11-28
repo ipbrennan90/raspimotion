@@ -6,7 +6,5 @@ RUN apt-get update && \
                 build-essential python \
                 ca-certificates
 
-ADD ./test.py ./test.py
-
 
 CMD ["python"]

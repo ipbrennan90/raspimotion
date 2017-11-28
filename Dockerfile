@@ -20,7 +20,7 @@ RUN gpg --keyserver keyring.debian.org --recv-keys 4DE8FF2A63C7CC90 \
 	&& gpg --keyserver pgp.mit.edu  --recv-key 6E3CBCE93372DCFA \
 	&& gpg --keyserver pgp.mit.edu --recv-keys 0x52a43a1e4b77b059
 
-ENV PYTHON_VERSION 2.7.13
+ENV PYTHON_VERSION 3.3.6
 
 # if this is called "PIP_VERSION", pip explodes with "ValueError: invalid truth value '<VERSION>'"
 ENV PYTHON_PIP_VERSION 9.0.1
@@ -29,7 +29,7 @@ ENV SETUPTOOLS_VERSION 34.3.3
 
 RUN set -x \
 	&& curl -SLO "http://resin-packages.s3.amazonaws.com/python/v$PYTHON_VERSION/Python-$PYTHON_VERSION.linux-armv6hf.tar.gz" \
-	&& echo "94d4aff130a28d5bc8ac4d53cb6ddef6443e668f9ff28f684e500c29e2cbdbdc  Python-2.7.13.linux-armv6hf.tar.gz" | sha256sum -c - \
+	&& echo "774dad867f9943caae7ac6296f0a138fcd5160d3d4b75a610b3e387aa284c532  Python-3.3.6.linux-armv6hf.tar.gz" | sha256sum -c - \
 	&& tar -xzf "Python-$PYTHON_VERSION.linux-armv6hf.tar.gz" --strip-components=1 \
 	&& rm -rf "Python-$PYTHON_VERSION.linux-armv6hf.tar.gz" \
 	&& ldconfig \
@@ -62,7 +62,7 @@ RUN set -x \
 	&& tar -xzC /usr/src/dbus-python --strip-components=1 -f dbus-python.tar.gz \
 	&& rm dbus-python.tar.gz* \
 	&& cd /usr/src/dbus-python \
-	&& PYTHON=python2.7 ./configure \
+	&& PYTHON=python3.3 ./configure \
 	&& make -j$(nproc) \
 	&& make install -j$(nproc) \
 	&& cd / \
@@ -78,4 +78,4 @@ RUN cd /usr/local/bin \
 	&& ln -sf python3-config python-config
 
 CMD ["echo","'No CMD command was set in Dockerfile! Details about CMD command could be found in Dockerfile Guide section in our Docs. Here's the link: http://docs.resin.io/deployment/dockerfile"]
-ENV PYTHONPATH /usr/lib/python2.7/dist-packages:/usr/lib/python2.7/site-packages:$PYTHONPATH
+ENV PYTHONPATH /usr/lib/python3/dist-packages:$PYTHONPATH
